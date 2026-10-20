@@ -20,8 +20,13 @@ Pi camera --/camera/image_raw/compressed--> [lane_follower node on PC] --/cmd_ve
 
 ## Demo
 
-- [Watch the robot following the line on the track](media/part1_robot_on_track.mp4)
-- [Watch the detection view (rqt)](media/part1_rqt_view.mp4)
+Robot following the line on the track:
+
+<video src="https://github.com/petrick001/Tb3-lane-follower/raw/main/media/part1_robot_on_track.mp4" controls width="640"></video>
+
+Detection view (rqt):
+
+<video src="https://github.com/petrick001/Tb3-lane-follower/raw/main/media/part1_rqt_view.mp4" controls width="640"></video>
 
 ## How it works
 

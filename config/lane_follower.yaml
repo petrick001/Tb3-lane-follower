@@ -1,0 +1,38 @@
+# Parameters for tb3_lane_follower.  Live tuning:  ros2 param set /lane_follower kp 1.5
+lane_follower:
+  ros__parameters:
+    # ---- topics --------------------------------------------------------------
+    image_topic: /camera/image_raw/compressed   # use /camera/image_raw with use_compressed: false if no compressed topic
+    use_compressed: true
+    cmd_vel_topic: /cmd_vel
+    enabled: true            # false = only detect (robot never moves) -> good for the first test
+    show_window: false       # true = open an OpenCV window on the PC
+    image_timeout: 0.6       # s without images -> stop
+    lost_hold_frames: 5      # frames to keep last command when the lane is lost
+    lost_recover_w: 0.0      # rad/s turn toward last seen side when lost (0 = just stop)
+
+    # ---- detector ----------------------------------------------------------------
+    proc_width: 320
+    yellow_h: [15, 40]
+    yellow_s_min: 70
+    yellow_v_min: 70
+    white_s_max: 70
+    white_v_min: 165
+    white_abs_v_min: 55
+    min_contrast: 30
+    blob_size: 31
+    roi_top: 0.55
+    band_top: 0.66
+    band_bottom: 0.97
+    min_pixels: 40
+    half_lane: 0.28
+    yellow_on_left: true     # false if you drive the 'inverse' direction
+
+    # ---- controller ----------------------------------------------------------------
+    kp: 1.2
+    kd: 0.15
+    v_max: 0.10              # m/s  (raise slowly: 0.10 -> 0.15 -> 0.20)
+    v_min: 0.04
+    w_max: 1.0               # rad/s
+    slowdown: 0.8
+    smooth: 0.5

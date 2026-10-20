@@ -150,6 +150,8 @@ both lines in 278 images, one line in 53, and none in 3.
 # Part 2 — Coming soon
 
 ---
+## Authors
+Theodore Petrick Reimmer & Muhammad Waqas Ahsan
 
 ## Acknowledgements
 

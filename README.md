@@ -135,15 +135,7 @@ ros2 param set /lane_follower white_v_min 150
 | Sees white where there is none (windows, tiles) | raise `white_v_min`, raise `roi_top`                                        |
 | Drives off when only one line is visible        | tune `half_lane` (half lane width / image width)                            |
 
-## Test without a robot
 
-```
-python3 tools/test_on_dataset.py /path/to/turtlebot3_autorace_dataset .   # stats + montage.jpg
-python3 -m pytest test/ -q
-```
-
-On the course dataset (334 images, lights on/off, floor/table, both directions) the detector finds
-both lines in 278 images, one line in 53, and none in 3.
 
 ---
 

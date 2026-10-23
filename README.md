@@ -146,6 +146,5 @@ ros2 param set /lane_follower white_v_min 150
 Theodore Petrick Reimmer & Muhammad Waqas Ahsan
 
 ## Acknowledgements
-
-Written with the help of an AI assistant (Claude, Anthropic). Detector thresholds were checked on the
+Detector thresholds were checked on the
 course dataset provided by J. Rodriguez.

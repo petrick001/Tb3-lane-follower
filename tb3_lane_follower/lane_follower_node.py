@@ -38,6 +38,7 @@ class LaneFollower(Node):
         self.declare_parameter('enabled', True)               # False = detect only, never move
         self.declare_parameter('show_window', False)          # cv2 window on the PC screen
         self.declare_parameter('image_timeout', 0.6)          # s without image -> stop
+        self.declare_parameter('debug_every', 3)              # show the debug view every Nth frame (1 = every frame)
         self.declare_parameter('lost_hold_frames', 5)         # keep last command this many frames
         self.declare_parameter('lost_recover_w', 0.0)         # rad/s turn toward last side when lost (0 = just stop)
         # detector
@@ -78,6 +79,7 @@ class LaneFollower(Node):
         self.last_t = None
         self.lost = 0
         self.last_cmd = (0.0, 0.0)
+        self.frame_count = 0
         self.last_side = 0.0
         self.add_on_set_parameters_callback(self._on_params)
         self.get_logger().info('lane_follower started: topic=%s enabled=%s' %
@@ -162,6 +164,10 @@ class LaneFollower(Node):
 
     def publish_debug(self, dbg, v, w):
         if dbg is None:
+            return
+        # Only do the slow viewer work (window + debug image) every Nth frame.
+        self.frame_count += 1
+        if self.frame_count % max(1, int(self.get_parameter('debug_every').value)) != 0:
             return
         cv2.putText(dbg, 'v=%.2f w=%+.2f' % (v, w), (5, 36), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
         if self.get_parameter('show_window').value:

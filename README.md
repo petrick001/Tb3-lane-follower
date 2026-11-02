@@ -28,6 +28,10 @@ Detection view (rqt):
 
 ![Detection view](media/part1_rqt_view.gif)
 
+Detection view, second run:
+
+![Detection view, second run](media/part1_rqt_view_2.gif)
+
 Full-quality videos: [robot on track](media/part1_robot_on_track.mp4) · [detection view](media/part1_rqt_view.mp4)
 
 ## How it works
@@ -108,11 +112,12 @@ ros2 param set /lane_follower show_window true
 If your camera has no compressed topic: set `use_compressed: false` and
 `image_topic: /camera/image_raw` in `config/lane_follower.yaml`.
 
-## Known issue: viewer pauses
+## Viewer and debug image
 
-The debug window and `rqt` are drawn in the same step that reads each camera frame.
-When the viewer is slow, a frame arrives late and the watchdog stops the robot.
-Workaround: use only one viewer at a time, and raise the timeout:
+The debug image (`/lane_follower/debug_image`) is sent only every 3rd camera frame, so a slow
+viewer cannot delay the steering. Change it with the `debug_every` parameter (1 = every frame).
+Use only one viewer at a time (`rqt` or `show_window`). If the robot still stops because of late
+images, raise the timeout:
 
 ```
 ros2 param set /lane_follower image_timeout 1.5
@@ -135,15 +140,11 @@ ros2 param set /lane_follower white_v_min 150
 | Sees white where there is none (windows, tiles) | raise `white_v_min`, raise `roi_top`                                        |
 | Drives off when only one line is visible        | tune `half_lane` (half lane width / image width)                            |
 
-## Test without a robot
+## Unit tests (no robot needed)
 
 ```
-python3 tools/test_on_dataset.py /path/to/turtlebot3_autorace_dataset .   # stats + montage.jpg
 python3 -m pytest test/ -q
 ```
-
-On the course dataset (334 images, lights on/off, floor/table, both directions) the detector finds
-both lines in 278 images, one line in 53, and none in 3.
 
 ---
 
@@ -153,5 +154,4 @@ both lines in 278 images, one line in 53, and none in 3.
 
 ## Acknowledgements
 
-Written with the help of an AI assistant (Claude, Anthropic). Detector thresholds were checked on the
-course dataset provided by J. Rodriguez.
+Written with the help of an AI assistant (Claude, Anthropic).

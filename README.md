@@ -151,7 +151,9 @@ python3 -m pytest test/ -q
 # Part 2 — Coming soon
 
 ---
+## Authors
+Theodore Petrick Reimmer & Muhammad Waqas Ahsan
 
 ## Acknowledgements
-
-Written with the help of an AI assistant (Claude, Anthropic).
+Detector thresholds were checked on the
+course dataset provided by J. Rodriguez.

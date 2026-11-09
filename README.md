@@ -176,16 +176,7 @@ ros2 param set /lane_follower white_v_min 150
 python3 -m pytest test/ -q
 ```
 
-Run the detector on a folder of images (prints stats and writes `montage.jpg`):
 
-```
-python3 tools/test_on_dataset.py /path/to/turtlebot3_autorace_dataset .
-```
-
-On the course dataset (334 images, lights on/off, floor/table, both directions) the detector finds
-both lines in 278 images, one line in 53, and none in 3. The dataset is not included in this repository.
-
----
 
 ## Authors
 

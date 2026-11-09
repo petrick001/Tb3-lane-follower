@@ -44,15 +44,43 @@ Full-quality videos: [robot on track](media/part1_robot_on_track.mp4) · [detect
 ## Hardware
 
 - TurtleBot3 Burger with Raspberry Pi and Pi camera (ov5647)
-- School PC running ROS2 Humble, same network, `ROS_DOMAIN_ID=30`
+- A PC running ROS2 Humble on the same network as the robot
+
+## Requirements
+
+**PC** (declared in `package.xml`)
+- Ubuntu 22.04 with ROS2 Humble
+- `rclpy`, `sensor_msgs`, `geometry_msgs`, `ros2launch`
+- `python3-opencv`, `python3-numpy`
+- `python3-pytest` (only for the unit tests)
+
+**Raspberry Pi**
+- TurtleBot3 bringup (`turtlebot3_bringup`)
+- `camera_ros` for the Pi camera
+
+Install the PC dependencies with rosdep (run after cloning, see below):
+
+```
+rosdep install --from-paths src --ignore-src -r -y
+```
 
 ## Install (PC)
 
 ```
 mkdir -p ~/robotics_ws/src && cd ~/robotics_ws/src
 git clone https://github.com/petrick001/Tb3-lane-follower.git tb3_lane_follower
-cd ~/robotics_ws && colcon build --packages-select tb3_lane_follower
+cd ~/robotics_ws
+rosdep install --from-paths src --ignore-src -r -y
+colcon build --packages-select tb3_lane_follower
+source install/setup.bash
 ```
+
+Run `source install/setup.bash` in every new terminal (or after each rebuild).
+
+## Network setup
+
+The Pi and the PC must use the **same** `ROS_DOMAIN_ID`. This README uses `30`; pick your own
+(0–101) if others share your network, and use it in every terminal below.
 
 ## Run
 
@@ -125,6 +153,8 @@ ros2 param set /lane_follower image_timeout 1.5
 
 ## Live tuning (no rebuild)
 
+All tunable parameters and their defaults are in `config/lane_follower.yaml`.
+
 ```
 ros2 param set /lane_follower kp 1.5        # steering gain
 ros2 param set /lane_follower v_max 0.15    # top speed (m/s)
@@ -146,14 +176,22 @@ ros2 param set /lane_follower white_v_min 150
 python3 -m pytest test/ -q
 ```
 
+Run the detector on a folder of images (prints stats and writes `montage.jpg`):
+
+```
+python3 tools/test_on_dataset.py /path/to/turtlebot3_autorace_dataset .
+```
+
+On the course dataset (334 images, lights on/off, floor/table, both directions) the detector finds
+both lines in 278 images, one line in 53, and none in 3. The dataset is not included in this repository.
+
 ---
 
-# Part 2 — Coming soon
-
----
 ## Authors
+
 Theodore Petrick Reimmer & Muhammad Waqas Ahsan
 
 ## Acknowledgements
-Detector thresholds were checked on the
-course dataset provided by J. Rodriguez.
+
+Prof J. Rodriguez.
+
